@@ -1,28 +1,21 @@
-public static void main(String[]args)
-{
-    import java.util.Scanner;
+import java.util.Scanner;
 import java.util.ArrayList;
+import java.time.LocalDate;
 
 public class Main {
-
-    // Placeholder for your Expense List
-    private static ArrayList<String> expenses = new ArrayList<>();
+    private static ArrayList<Expense> expenses = new ArrayList<>();
     
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
-        
-        // Welcome message
+
         System.out.println("Welcome to the Personal Finance Tracker!");
 
-        // Main program loop
         while (running) {
-            // Display the main menu
             printMenu();
             int choice = scanner.nextInt();
             scanner.nextLine();  // Consume newline
 
-            // Handle menu choice
             switch (choice) {
                 case 1:
                     addExpense(scanner);
@@ -45,7 +38,6 @@ public class Main {
         scanner.close();
     }
 
-    // Method to display the menu
     public static void printMenu() {
         System.out.println("\nMain Menu:");
         System.out.println("1. Add an expense");
@@ -57,13 +49,20 @@ public class Main {
 
     // Method to add an expense
     public static void addExpense(Scanner scanner) {
-        System.out.print("Enter expense description: ");
-        String description = scanner.nextLine();
         System.out.print("Enter expense amount: ");
-        String amount = scanner.nextLine();
-        
-        // Add to expenses list (could be expanded to a more complex object)
-        expenses.add(description + " - $" + amount);
+        double amount = scanner.nextDouble();
+        scanner.nextLine(); // Consume newline
+
+        System.out.print("Enter expense category: ");
+        String category = scanner.nextLine();
+
+        System.out.print("Enter expense date (yyyy-mm-dd): ");
+        String dateInput = scanner.nextLine();
+        LocalDate date = LocalDate.parse(dateInput);
+
+        // Create a new Expense object
+        Expense expense = new Expense(amount, category, date);
+        expenses.add(expense);
         System.out.println("Expense added successfully!");
     }
 
@@ -73,7 +72,7 @@ public class Main {
         if (expenses.isEmpty()) {
             System.out.println("No expenses recorded.");
         } else {
-            for (String expense : expenses) {
+            for (Expense expense : expenses) {
                 System.out.println(expense);
             }
         }
@@ -85,5 +84,4 @@ public class Main {
         String budget = scanner.nextLine();
         System.out.println("Your budget of $" + budget + " has been set.");
     }
-}
 }
