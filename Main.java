@@ -4,7 +4,8 @@ import java.time.LocalDate;
 
 public class Main {
     private static ArrayList<Expense> expenses = new ArrayList<>();
-    
+    private static SavingsGoal savingsGoal; // Single savings goal for now
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -27,6 +28,9 @@ public class Main {
                     setBudget(scanner);
                     break;
                 case 4:
+                    manageSavingsGoal(scanner);
+                    break;
+                case 5:
                     System.out.println("Thank you for using the Finance Tracker. Goodbye!");
                     running = false;
                     break;
@@ -43,7 +47,8 @@ public class Main {
         System.out.println("1. Add an expense");
         System.out.println("2. View expenses");
         System.out.println("3. Set budget");
-        System.out.println("4. Exit");
+        System.out.println("4. Manage savings goal");
+        System.out.println("5. Exit");
         System.out.print("Enter your choice: ");
     }
 
@@ -83,5 +88,27 @@ public class Main {
         System.out.print("Enter your budget for the month: ");
         String budget = scanner.nextLine();
         System.out.println("Your budget of $" + budget + " has been set.");
+    }
+
+    // Method to manage the savings goal
+    public static void manageSavingsGoal(Scanner scanner) {
+        if (savingsGoal == null) {
+            System.out.print("Enter savings goal amount: ");
+            double goalAmount = scanner.nextDouble();
+            scanner.nextLine(); // Consume newline
+            savingsGoal = new SavingsGoal(goalAmount);
+            System.out.println("Savings goal of $" + goalAmount + " created.");
+        } else {
+            System.out.println(savingsGoal); // Display current goal status
+            System.out.print("Would you like to add to your savings? (yes/no): ");
+            String response = scanner.nextLine();
+
+            if (response.equalsIgnoreCase("yes")) {
+                System.out.print("Enter amount to add to savings: ");
+                double amount = scanner.nextDouble();
+                savingsGoal.addToSavings(amount);
+                System.out.println(savingsGoal); // Display updated status
+            }
+        }
     }
 }
